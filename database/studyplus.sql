@@ -1,0 +1,64 @@
+-- studyplus.sql
+CREATE DATABASE IF NOT EXISTS studyplus CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE studyplus;
+
+CREATE TABLE IF NOT EXISTS users(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(120) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tasks(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  task_name VARCHAR(255) NOT NULL,
+  due_date DATETIME NULL,
+  status ENUM('pending','completed') DEFAULT 'pending',
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS timetable(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  subject VARCHAR(120) NOT NULL,
+  day_of_week VARCHAR(10) NOT NULL,
+  start_time TIME NOT NULL,
+  end_time TIME NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS study_sessions(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  subject VARCHAR(120) NOT NULL,
+  duration INT NOT NULL, -- minutes
+  date DATE NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS water_intake(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  glasses INT NOT NULL,
+  date DATE NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS friends(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  friend_id INT NOT NULL,
+  status ENUM('pending','accepted') DEFAULT 'pending',
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY(friend_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS notes(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  content TEXT,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
