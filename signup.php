@@ -25,7 +25,7 @@ if (isset($_POST['signup'])) {
 </head>
 <body>
 <h2>Sign Up</h2>
-<form method="POST" action="">
+<form method="POST" action="signup.php"> <!-- important -->
     <input type="text" name="name" placeholder="Full Name" required><br>
     <input type="email" name="email" placeholder="Email" required><br>
     <input type="password" name="password" placeholder="Password" required><br>

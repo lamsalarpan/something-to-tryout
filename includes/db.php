@@ -1,18 +1,12 @@
 <?php
-// includes/db.php — update with your own DB info
-$DB_HOST = "localhost";
-$DB_NAME = "studyplus";
-$DB_USER = "root";
-$DB_PASS = "";
+$servername = "localhost";
+$username = "root";   // change if needed
+$password = "";       // change if your MySQL has a password
+$dbname = "studyplus";
 
-try{
-  $pdo = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4", $DB_USER, $DB_PASS, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-  ]);
-}catch(Exception $e){
-  die("DB Error: " . $e->getMessage());
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
-if (session_status() === PHP_SESSION_NONE) { session_start(); }
 ?>
